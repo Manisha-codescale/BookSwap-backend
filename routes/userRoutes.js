@@ -3,7 +3,7 @@ import user from '../models/user.js';
 
 const router = express.Router();
 
-router.post('/users', async (req, res) => {
+router.post('/', async (req, res) => {
     const { email, username, name, password, age } = req.body;
 
     try {
@@ -20,7 +20,7 @@ router.post('/users', async (req, res) => {
     }
 });
 
-router.get('/users', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const users = await user.find();
         res.status(200).json(users);
@@ -29,7 +29,7 @@ router.get('/users', async (req, res) => {
     }
 });
 
-router.get('users/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -40,7 +40,7 @@ router.get('users/:id', async (req, res) => {
     }
 });
 
-router.put('/users/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
     const { id } = req.params;
     const { email, username, name, password, age } = req.body;
 
@@ -51,6 +51,20 @@ router.put('/users/:id', async (req, res) => {
             name,
             password,
             age
+        }, { new: true });
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+
+router.put('/changePassword/:id', async (req, res) => {
+    const { id } = req.params;
+    const { password } = req.body;
+
+    try {
+        const updatedUser = await user.findByIdAndUpdate(id, {
+            password,
         }, { new: true });
         res.status(200).json(updatedUser);
     } catch (error) {
