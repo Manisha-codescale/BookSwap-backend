@@ -1,9 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import userRoutes from './routes/userRoutes.js';
-import mongoose from 'mongoose';
 //import { initializeApp } from 'firebase-admin/app';
-
 import mongoose from 'mongoose';
 import bookRoute from './routes/bookRoute.js';
 
