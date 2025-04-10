@@ -4,6 +4,9 @@ import userRoutes from './routes/userRoutes.js';
 import mongoose from 'mongoose';
 //import { initializeApp } from 'firebase-admin/app';
 
+import mongoose from 'mongoose';
+import bookRoute from './routes/bookRoute.js';
+
 dotenv.config();
 
 const app = express();
@@ -24,14 +27,15 @@ async function run() {
 }
 run().catch(console.dir);
 
+app.use('/api/book', bookRoute);
 app.use('/users', userRoutes);
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
   }
 );
-  
+
 app.listen(PORT, () => {
     console.log(`Server is running on port http://localhost:${PORT}`);
   }
-  );
+);
