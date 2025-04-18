@@ -2,9 +2,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import userRoutes from './routes/userRoutes.js';
 import mongoose from 'mongoose';
+import cors from 'cors';
 //import { initializeApp } from 'firebase-admin/app';
-
-import mongoose from 'mongoose';
 import bookRoute from './routes/bookRoute.js';
 
 dotenv.config();
@@ -12,6 +11,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
 
+app.use(cors());
 app.use(express.json());
 
 const uri = process.env.MONGODB_URI;
