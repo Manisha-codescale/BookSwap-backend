@@ -25,7 +25,25 @@ bookRoute.post('/addbook', authenticateFirebase, async (req, res) => {
       res.status(400).json({ message: error.message });
     }
   });
-  
+
+bookRoute.get('/listAddedbooks', authenticateFirebase, async (req, res) => {
+    try {
+        console.log(req.firebaseUID);
+      const books = await bookSchema.find({ firebaseUID: req.firebaseUID });
+      res.status(200).json(books);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+});
+
+// bookRoute.get('/listbook/:firebaseUID', async (req,res) => {
+//     try {
+//         const books = await bookSchema.find({ firebaseUID: req.params.firebaseUID });
+//         res.status(200).json(books);
+//     } catch (error) {
+//         res.status(400).json({ message: error.message });
+//     }
+// })
 
 bookRoute.get('/listbook', async (req,res) => {
     try {
