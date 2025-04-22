@@ -85,4 +85,29 @@ bookRoute.get('/filterbook', async (req, res) => {
     }
 })
 
+bookRoute.get('/filterBookAuthName', async (req, res) => {
+    try {
+      const { search } = req.query;
+  
+      const filter = search
+        ? {
+            $or: [
+              { name: { $regex: search, $options: 'i' } },  
+              { auther: { $regex: search, $options: 'i' } },
+            ],
+          }
+        : {}; 
+  
+      const filteredbooks = await bookSchema.find(filter);
+  
+      if (!filteredbooks.length) {
+        return res.status(404).send("No Books found.");
+      }
+  
+      res.status(200).json(filteredbooks);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  });
+
 export default bookRoute;
