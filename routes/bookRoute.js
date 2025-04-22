@@ -1,17 +1,31 @@
 import express from 'express';
 const bookRoute = express.Router();
 import bookSchema from '../models/BookSchema.js'
+import authenticateFirebase from '../middleware/authMiddleware.js';
 
-bookRoute.post('/addbook', async (req,res) => {
+bookRoute.post('/addbook', authenticateFirebase, async (req, res) => {
     try {
       const { ISBN, name, auther, category, price, age_limit, description, isConditionUsed } = req.body;
-      const book = new bookSchema({ ISBN, name, auther, category, price, age_limit, description, isConditionUsed });
+  
+      const book = new bookSchema({
+        ISBN,
+        name,
+        auther,
+        category,
+        price,
+        age_limit,
+        description,
+        isConditionUsed,
+        firebaseUID: req.user.uid, 
+      });
+  
       await book.save();
       res.status(201).json(book);
     } catch (error) {
       res.status(400).json({ message: error.message });
     }
-});
+  });
+  
 
 bookRoute.get('/listbook', async (req,res) => {
     try {
