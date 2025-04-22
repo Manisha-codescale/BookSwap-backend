@@ -26,7 +26,12 @@ const BookSchema = mongoose.Schema(
         },
         description : {
             type : String
-        }
+        },
+        isConditionUsed: {
+            type: Boolean,
+            default: true,
+            required: true,
+        },
     }
 )
 

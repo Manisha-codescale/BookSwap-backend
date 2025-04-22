@@ -2,10 +2,11 @@ import express from 'express';
 import dotenv from 'dotenv';
 import userRoutes from './routes/userRoutes.js';
 import mongoose from 'mongoose';
-import cors from 'cors';
-//import { initializeApp } from 'firebase-admin/app';
 import bookRoute from './routes/bookRoute.js';
 import chatRoutes from './routes/chatRoutes.js';
+import cors from 'cors';
+//import { initializeApp } from 'firebase-admin/app';
+
 
 dotenv.config();
 
