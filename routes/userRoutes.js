@@ -4,7 +4,7 @@ import user from '../models/user.js';
 const router = express.Router();
 
 router.post('/addUser', async (req, res) => {
-    const { email, username, name, password, age } = req.body;
+    const { email, username, name, password, date_of_birth } = req.body;
 
     try {
         const newUser = await user.create({
@@ -12,7 +12,7 @@ router.post('/addUser', async (req, res) => {
             username,
             name,
             password,
-            age
+            date_of_birth
         });
         res.status(201).json(newUser);
     } catch (error) {
@@ -36,13 +36,13 @@ router.get('/getUserbyId/:id', async (req, res) => {
         const singleUser = await user.findById(id);
         res.status(200).json(singleUser);
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.status(400).json({ error: error.messdate_of_birth });
     }
 });
 
 router.put('/updateUser/:id', async (req, res) => {
     const { id } = req.params;
-    const { email, username, name, password, age } = req.body;
+    const { email, username, name, password, date_of_birth } = req.body;
 
     try {
         const updatedUser = await user.findByIdAndUpdate(id, {
@@ -50,7 +50,7 @@ router.put('/updateUser/:id', async (req, res) => {
             username,
             name,
             password,
-            age
+            date_of_birth
         }, { new: true });
         res.status(200).json(updatedUser);
     } catch (error) {
