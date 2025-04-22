@@ -32,6 +32,10 @@ const BookSchema = mongoose.Schema(
             default: true,
             required: true,
         },
+        firebaseUID: {
+            type: String,
+            required: true, 
+          },
     }
 )
 
