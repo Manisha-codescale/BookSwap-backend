@@ -3,14 +3,17 @@ import dotenv from 'dotenv';
 import userRoutes from './routes/userRoutes.js';
 import mongoose from 'mongoose';
 import bookRoute from './routes/bookRoute.js';
-
+import chatRoutes from './routes/chatRoutes.js';
+import cors from 'cors';
 //import { initializeApp } from 'firebase-admin/app';
+
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT;
 
+app.use(cors());
 app.use(express.json());
 
 const uri = process.env.MONGODB_URI;
@@ -28,6 +31,7 @@ run().catch(console.dir);
 
 app.use('/api/book', bookRoute);
 app.use('/users', userRoutes);
+app.use('/api/chat', chatRoutes);
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
