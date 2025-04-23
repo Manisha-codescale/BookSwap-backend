@@ -56,12 +56,13 @@ router.get('/getUserbyId/:firebaseUid', async (req, res) => {
     }
 });
 
-router.put('/updateUser/:id', async (req, res) => {
-    const { id } = req.params;
+router.put('/updateUser/:firebaseUid', async (req, res) => {
+    console.log('updtbyId route hit');
+    const { firebaseUid} = req.params;
     const { email, name, date_of_birth } = req.body;
 
     try {
-        const updatedUser = await User.findByIdAndUpdate(id, {
+        const updatedUser = await User.findOneAndUpdate({ firebaseUid: firebaseUid }, {
             email,
             name,
             date_of_birth
@@ -71,6 +72,7 @@ router.put('/updateUser/:id', async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 });
+
 
 /* router.put('/changePassword/:id', async (req, res) => {
     const { id } = req.params;
