@@ -72,19 +72,22 @@ bookRoute.delete('/deletebook/:id', async (req,res) => {
     }
 })
 
-bookRoute.put('/updatebook/:id', async (req,res) => {
-    try{
-        const { ISBN, name, auther, category, price, age_limit, description } = req.body;
-        const book = await bookSchema.findByIdAndUpdate(req.params.id,
-             { ISBN, name, auther, category, price, age_limit, description }, 
-            { new: true, runValidators: true });
+bookRoute.put('/updatebook/:id', authenticateFirebase , async (req, res) => {
+    try {
+        const { ISBN, name, auther, category, price, age_limit, description, isConditionUsed } = req.body;
+        const book = await bookSchema.findByIdAndUpdate(
+            req.params.id,
+            { ISBN, name, auther, category, price, age_limit, description, isConditionUsed },
+            { new: true, runValidators: true }
+        );
+        if (!book) return res.status(404).send("Book not found.");
         res.status(200).json(book);
-        
-        if(!book) return res.status(404).send("Book not found.");
-    }catch (error) {
+    } catch (error) {
         res.status(400).json({ message: error.message });
     }
-})
+});
+
+
 
 bookRoute.get('/filterbook', async (req, res) => {
     try {
