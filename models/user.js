@@ -6,19 +6,14 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    username: {
-        type: String,
-        required: true,
-        unique: true,
-    },
     name: {
         type: String,
         required: true,
     },
-    password: {
+    /* password: {
         type: String,
         required: true,
-    },
+    }, */
     date_of_birth: {
         type: Date,
         required: true,
@@ -26,6 +21,25 @@ const userSchema = new mongoose.Schema({
     age: {
         type: Number,
     },
+    firebaseUid: {
+        type: String,
+        unique: true,
+        sparse: true,
+    },
+    authProvider: {
+        type: String,
+        enum: ['firebase', 'email', 'google', 'direct'],
+        message: '{VALUE} is not supported as an auth provider.',
+        default: 'direct'
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    lastLogin: {
+        type: Date,
+        default: Date.now
+    }
 })
 
 userSchema.pre('save', function(next) {
@@ -45,5 +59,5 @@ userSchema.pre('save', function(next) {
 });
 
 
-const user = mongoose.model('user', userSchema);
-export default user;
+const User = mongoose.model('user', userSchema);
+export default User;

@@ -5,8 +5,6 @@ import mongoose from 'mongoose';
 import bookRoute from './routes/bookRoute.js';
 import chatRoutes from './routes/chatRoutes.js';
 import cors from 'cors';
-//import { initializeApp } from 'firebase-admin/app';
-
 
 dotenv.config();
 
@@ -30,7 +28,7 @@ async function run() {
 run().catch(console.dir);
 
 app.use('/api/book', bookRoute);
-app.use('/users', userRoutes);
+app.use('/api/users', userRoutes);
 app.use('/api/chat', chatRoutes);
 
 app.get('/', (req, res) => {
