@@ -44,20 +44,32 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre('save', function(next) {
     if (this.date_of_birth) {
-        const today = new Date();
-        const birthDate = new Date(this.date_of_birth);
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const monthDiff = today.getMonth() - birthDate.getMonth();
-        
-        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-            age--;
-        }
-        
-        this.age = age;
+        this.age = calculateAge(this.date_of_birth);
     }
     next();
 });
 
+userSchema.pre('findOneAndUpdate', function(next) {
+    const update = this.getUpdate();
+    if (update.date_of_birth) {
+        update.age = calculateAge(update.date_of_birth);
+        this.setUpdate(update);
+    }
+    next();
+});
+
+function calculateAge(dob) {
+    const today = new Date();
+    const birthDate = new Date(dob);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+
+    return age;
+}
 
 const User = mongoose.model('user', userSchema);
 export default User;
