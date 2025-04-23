@@ -39,14 +39,20 @@ router.get('/getUser', async (req, res) => {
     }
 });
 
-router.get('/getUserbyId/:id', async (req, res) => {
-    const { id } = req.params;
+router.get('/getUserbyId/:firebaseUid', async (req, res) => {
+    console.log('getbyId route hit');
+    const { firebaseUid} = req.params;
+    console.log(req.body);
+    console.log('Firebase UID:', firebaseUid);
 
     try {
-        const singleUser = await User.findById(id);
+        const singleUser = await User.findOne({ firebaseUid: firebaseUid });
+        if (!singleUser) {
+            return res.status(404).json({ error: 'User not found' });
+        }
         res.status(200).json(singleUser);
     } catch (error) {
-        res.status(400).json({ error: error.messdate_of_birth });
+        res.status(400).json({ error: error.message });
     }
 });
 
