@@ -39,23 +39,30 @@ router.get('/getUser', async (req, res) => {
     }
 });
 
-router.get('/getUserbyId/:id', async (req, res) => {
-    const { id } = req.params;
+router.get('/getUserbyId/:firebaseUid', async (req, res) => {
+    console.log('getbyId route hit');
+    const { firebaseUid} = req.params;
+    console.log(req.body);
+    console.log('Firebase UID:', firebaseUid);
 
     try {
-        const singleUser = await User.findById(id);
+        const singleUser = await User.findOne({ firebaseUid: firebaseUid });
+        if (!singleUser) {
+            return res.status(404).json({ error: 'User not found' });
+        }
         res.status(200).json(singleUser);
     } catch (error) {
-        res.status(400).json({ error: error.messdate_of_birth });
+        res.status(400).json({ error: error.message });
     }
 });
 
-router.put('/updateUser/:id', async (req, res) => {
-    const { id } = req.params;
+router.put('/updateUser/:firebaseUid', async (req, res) => {
+    console.log('updtbyId route hit');
+    const { firebaseUid} = req.params;
     const { email, name, date_of_birth } = req.body;
-
+    console.log(req.body);
     try {
-        const updatedUser = await User.findByIdAndUpdate(id, {
+        const updatedUser = await User.findOneAndUpdate({ firebaseUid: firebaseUid }, {
             email,
             name,
             date_of_birth
@@ -65,6 +72,7 @@ router.put('/updateUser/:id', async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 });
+
 
 /* router.put('/changePassword/:id', async (req, res) => {
     const { id } = req.params;
