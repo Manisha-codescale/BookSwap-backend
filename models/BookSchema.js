@@ -27,6 +27,10 @@ const BookSchema = mongoose.Schema(
         description : {
             type : String
         },
+        bookImage: {
+            type: String,
+            default: ''
+        },
         isConditionUsed: {
             type: Boolean,
             default: true,
