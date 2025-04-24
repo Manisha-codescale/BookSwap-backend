@@ -60,7 +60,7 @@ router.put('/updateUser/:firebaseUid', async (req, res) => {
     console.log('updtbyId route hit');
     const { firebaseUid} = req.params;
     const { email, name, date_of_birth } = req.body;
-
+    console.log(req.body);
     try {
         const updatedUser = await User.findOneAndUpdate({ firebaseUid: firebaseUid }, {
             email,
