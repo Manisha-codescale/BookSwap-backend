@@ -10,10 +10,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    /* password: {
+    profileImage: {
         type: String,
-        required: true,
-    }, */
+        default: ''
+    },
     date_of_birth: {
         type: Date,
         required: true,
