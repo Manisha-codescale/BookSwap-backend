@@ -4,6 +4,7 @@ import userRoutes from "./routes/userRoutes.js";
 import mongoose from "mongoose";
 import bookRoute from "./routes/bookRoute.js";
 import chatRoutes from "./routes/chatRoutes.js";
+import messageRoute from "./routes/messageRoute.js";
 import cors from "cors";
 import http from "http";
 import { Server } from "socket.io";
@@ -46,6 +47,7 @@ run().catch(console.dir);
 app.use("/api/book", bookRoute);
 app.use("/api/users", userRoutes);
 app.use("/api/chat", chatRoutes);
+app.use("/api/message", messageRoute);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
