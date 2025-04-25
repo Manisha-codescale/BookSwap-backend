@@ -4,6 +4,7 @@ import userRoutes from "./routes/userRoutes.js";
 import mongoose from "mongoose";
 import bookRoute from "./routes/bookRoute.js";
 import chatRoutes from "./routes/chatRoutes.js";
+import chatRoomRoutes from "./routes/chatRoomRoutes.js";
 import cors from "cors";
 import http from "http";
 import { Server } from "socket.io";
@@ -45,7 +46,7 @@ run().catch(console.dir);
 
 app.use("/api/book", bookRoute);
 app.use("/api/users", userRoutes);
-app.use("/api/chat", chatRoutes);
+app.use("/api/chatrooms", chatRoomRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
@@ -66,6 +67,7 @@ io.on("connection", (socket) => {
     console.log("Message Send");
     const newMessage = new Message({ roomId, senderId, message });
     await newMessage.save();
+    
 
     io.to(roomId).emit("receive_message", {
       message,
